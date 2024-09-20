@@ -8,17 +8,16 @@
 using namespace std;
 
 int main() {
-    //Initialize GE P60 Robot Parameters
     //Defining GE P60 Robot Constant Mechanism Parameters
-    double alpha_12,alpha_23,alpha_34,alpha_45,alpha_56;
-    double S2,S3,S4,S5;
     //Twist Angles
+    double alpha_12,alpha_23,alpha_34,alpha_45,alpha_56;
     alpha_12 = 270*D2R;
     alpha_23 = 0;
     alpha_34 = 0;
     alpha_45 = 270*D2R;
     alpha_56 = 90*D2R;
     //Joint Offsets
+    double S2,S3,S4,S5;
     S2 = 0; //cm
     S3 = 0; //cm
     S4 = 9.8; //cm
@@ -30,9 +29,18 @@ int main() {
     a34 = 90;
     a45 = 0;
     a56 = 0;
+
+//    //Defining Variable Parameters (HW4)
+//    double a67, alpha_67;
+//    a67 = 0;
+//    alpha_67 = 90*D2R;
+
     RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,S2,S3,S4,S5,a12,a23,a34,a45,a56);
 
-    //Defining Parameters for HW 3
+//    //New For HW4
+//    RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,alpha_67,S2,S3,S4,S5,a12,a23,a34,a45,a56,a67);
+
+    //Defining Variable Parameters (HW3)
     double phi1, th2, th3, th4, th5, th6, S6;
     phi1 = 50*D2R;
     th2  = 120*D2R;
@@ -54,6 +62,19 @@ int main() {
     MatrixMath MatrixOp;
     //Getting the Point in Fixed Frame
     MatrixOp.VectorMult(P1_F,T_6toF,P1_6);
+
+    //Inputs for Closed Loop Analysis (HW4)
+    //Pretty Sure these are from the Foward Analysis
+    //I just set up the vectors rn but might have to get the values for these
+    //from the T matrix
+    double P_tool_6[3] = {0};
+    double P_tool_F[3] = {0};
+    double S6_F[3] = {0};
+    double a67_F[3] = {0};
+
+//    //Closed Loop Analysis
+//    Robot_GEP60.Closed_Loop(phi1,th2,th3,th4,th5,th6,S6,
+//                              P_tool_6[3],P_tool_F[3],S6_F[3],a67_F[3]);
 
     //Output the Results
     cout << "Tool Point in Fixed = " << P1_F[0] << ","
