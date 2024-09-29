@@ -1,6 +1,6 @@
 #include <iostream>
 #include "RobotKinematics.h"
-#include "MatrixMath.h"
+#include "MathOperations.h"
 #include <math.h>
 
 #define D2R M_PI/180.0
@@ -30,15 +30,15 @@ int main() {
     a45 = 0;
     a56 = 0;
 
-//    //Defining Variable Parameters (HW4)
-//    double a67, alpha_67;
-//    a67 = 0;
-//    alpha_67 = 90*D2R;
+    //Defining Variable Parameters (HW4)
+    double a67, alpha_67;
+    a67 = 0;
+    alpha_67 = 90*D2R;
 
-    RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,S2,S3,S4,S5,a12,a23,a34,a45,a56);
+//    RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,S2,S3,S4,S5,a12,a23,a34,a45,a56);
 
-//    //New For HW4
-//    RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,alpha_67,S2,S3,S4,S5,a12,a23,a34,a45,a56,a67);
+    //New For HW4
+    RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,alpha_67,S2,S3,S4,S5,a12,a23,a34,a45,a56,a67);
 
     //Defining Variable Parameters (HW3)
     double phi1, th2, th3, th4, th5, th6, S6;
@@ -59,22 +59,21 @@ int main() {
     Robot_GEP60.Forward(T_6toF, phi1,th2,th3,th4,th5,th6,S6);
 
     //Matrix Math Object
-    MatrixMath MatrixOp;
+    MathOperations MatrixOp;
     //Getting the Point in Fixed Frame
     MatrixOp.VectorMult(P1_F,T_6toF,P1_6);
 
     //Inputs for Closed Loop Analysis (HW4)
-    //Pretty Sure these are from the Foward Analysis
-    //I just set up the vectors rn but might have to get the values for these
-    //from the T matrix
-    double P_tool_6[3] = {0};
-    double P_tool_F[3] = {0};
-    double S6_F[3] = {0};
-    double a67_F[3] = {0};
+    //Values from Example 5.7 in book these are in inches
+    double P_tool_6[3] = {5,3,7};
+    double P_tool_F[3] = {25,23,24};
+    double S6_F[3] = {0.177,0.884,-0.433};
+    double a67_F[3] = {-0.153,0.459,0.875};
 
-//    //Closed Loop Analysis
-//    Robot_GEP60.Closed_Loop(phi1,th2,th3,th4,th5,th6,S6,
-//                              P_tool_6[3],P_tool_F[3],S6_F[3],a67_F[3]);
+    //Check if cos is working
+    //Closed Loop Analysis
+    Robot_GEP60.Closed_Loop(phi1,th2,th3,th4,th5,th6,S6,
+                              P_tool_6,P_tool_F,S6_F,a67_F);
 
     //Output the Results
     cout << "Tool Point in Fixed = " << P1_F[0] << ","
@@ -83,7 +82,6 @@ int main() {
          << T_6toF[1][ 2] << "," << T_6toF[2][ 2] << endl ;
     cout << "a67 in Fixed = " << T_6toF[0][0] << ","
          << T_6toF[1][ 0] << "," << T_6toF[2][ 0] << endl ;
-
     return 0;
 
 }
