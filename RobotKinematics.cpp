@@ -5,7 +5,7 @@
 #include <cmath>
 
 #define D2R M_PI/180.0
-#define R2D 1/D2R
+#define R2D 180/M_PI
 using namespace std;
 
 //Constructor Implementation
@@ -284,7 +284,7 @@ void RobotKinematics::Closed_Loop(double P_tool_6[3],double P_tool_F[3], double 
     //Calculate angles alpha_71,th7, and gamma1
     *alpha_71 = acos(c71) * R2D;
     *th7 = acos(c7) * R2D;
-    *gamma1 = acos(cg1) * R2D;
+    *gamma1 = asin(sg1) * R2D;
 
 }
 

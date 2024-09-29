@@ -35,8 +35,6 @@ int main() {
     a67 = 0;
     alpha_67 = 90*D2R;
 
-//    RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,S2,S3,S4,S5,a12,a23,a34,a45,a56);
-
     //New For HW4
     RobotKinematics Robot_GEP60(alpha_12,alpha_23,alpha_34,alpha_45,alpha_56,alpha_67,S2,S3,S4,S5,a12,a23,a34,a45,a56,a67);
 
@@ -65,6 +63,7 @@ int main() {
 
     //Inputs for Closed Loop Analysis (HW4)
     //Values from Example 5.7 in book these are in inches
+    //a71,alpha_71,S7,th7,S1,gamma1 values to test case in PG 51
     double P_tool_6[3] = {5,3,7};
     double P_tool_F[3] = {25,23,24};
     double S6_F[3] = {0.177,0.884,-0.433};
@@ -81,14 +80,20 @@ int main() {
                     &a71, &S7, &S1, &alpha_71, &th7, &gamma1);
 
     //Output the Results
-    cout << "Tool Point in Fixed = " << P1_F[0] << ","
-         << P1_F[1] << "," << P1_F[2] << " cm" << endl ;
-    cout << "S6 in Fixed = " << T_6toF[0][2] << ","
-         << T_6toF[1][ 2] << "," << T_6toF[2][ 2] << endl ;
-    cout << "a67 in Fixed = " << T_6toF[0][0] << ","
-         << T_6toF[1][ 0] << "," << T_6toF[2][ 0] << endl ;
-    cout << "Joint Offset S1  = " << S1<< endl;
+    //For HW3
+//    cout << "Tool Point in Fixed = " << P1_F[0] << ","
+//         << P1_F[1] << "," << P1_F[2] << " cm" << endl ;
+//    cout << "S6 in Fixed = " << T_6toF[0][2] << ","
+//         << T_6toF[1][ 2] << "," << T_6toF[2][ 2] << endl ;
+//    cout << "a67 in Fixed = " << T_6toF[0][0] << ","
+//         << T_6toF[1][ 0] << "," << T_6toF[2][ 0] << endl ;
+    //For HW4 verifying values from example 5.7
+    cout << "Link Length a71 = " << a71 << endl;
+    cout << "Twist Angle Alpha 71 = " << alpha_71 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
     cout << "Joint Offset S7 = " << S7 << endl;
+    cout << "Joint Angle Theta 7 = " << th7 <<  "\u00B0" << endl;
+    cout << "Joint Offset S1  = " << S1<< endl;
+    cout << "Gamma 1 = " << gamma1 <<  "\u00B0" << endl;
     return 0;
 
 }
