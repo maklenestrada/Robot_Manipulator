@@ -70,10 +70,15 @@ int main() {
     double S6_F[3] = {0.177,0.884,-0.433};
     double a67_F[3] = {-0.153,0.459,0.875};
 
-    //Check if cos is working
     //Closed Loop Analysis
-    Robot_GEP60.Closed_Loop(phi1,th2,th3,th4,th5,th6,S6,
-                              P_tool_6,P_tool_F,S6_F,a67_F);
+    double a71 = 0;
+    double S7 = 0;
+    double S1 = 0;
+    double alpha_71 = 0;
+    double th7 = 0;
+    double gamma1 = 0;
+    Robot_GEP60.Closed_Loop(P_tool_6, P_tool_F, S6_F,a67_F,
+                    &a71, &S7, &S1, &alpha_71, &th7, &gamma1);
 
     //Output the Results
     cout << "Tool Point in Fixed = " << P1_F[0] << ","
@@ -82,6 +87,8 @@ int main() {
          << T_6toF[1][ 2] << "," << T_6toF[2][ 2] << endl ;
     cout << "a67 in Fixed = " << T_6toF[0][0] << ","
          << T_6toF[1][ 0] << "," << T_6toF[2][ 0] << endl ;
+    cout << "Joint Offset S1  = " << S1<< endl;
+    cout << "Joint Offset S7 = " << S7 << endl;
     return 0;
 
 }

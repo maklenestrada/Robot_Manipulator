@@ -26,6 +26,9 @@ public:
     //Function to multiply vector times scalar
     void MultVecByScalar(double ans[3], double vec[3], double c);
 
+    //Function to add to vectors
+    void AddVectors(double ans[3], double x[3],double y[3]);
+
     //Function to check if value is near a desired tolerance
     int ValueNear(double val, double goal, double tol);
 };

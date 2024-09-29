@@ -16,12 +16,7 @@ private:
     double a67;
 
 public:
-//    //Constructor
-//    RobotKinematics(double alpha_12, double alpha_23, double alpha_34, double alpha_45, double alpha_56,
-//                    double S2, double S3, double S4, double S5,
-//                    double a12, double a23, double a34, double a45, double a56);
-
-    //New Constructor (HW4)
+    //Constructor (HW4)
     RobotKinematics(double alpha_12, double alpha_23, double alpha_34, double alpha_45, double alpha_56,double alpha_67,
                     double S2, double S3, double S4, double S5,
                     double a12, double a23, double a34, double a45, double a56, double a67);
@@ -34,10 +29,8 @@ public:
     void T_itoj(double th_j,double alpha_ij,double a_ij, double S_j,double T_ij[4][4]);
 
     //Closed Loop Analysis
-    void Closed_Loop(double phi1, double th2, double th3,
-                     double th4, double th5, double th6,
-                     double S6, double P_tool_6[3],
-                     double P_tool_F[3], double S6_F[3], double a67_F[3]);
+    void Closed_Loop(double P_tool_6[3],double P_tool_F[3], double S6_F[3], double a67_F[3],
+                     double* a71,double* S7, double* S1, double* alpha_71, double* th7, double* gamma1);
 
     //Getter Methods to access private parameters
     double Getalpha_12() const;

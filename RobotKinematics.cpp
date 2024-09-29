@@ -8,14 +8,7 @@
 #define R2D 1/D2R
 using namespace std;
 
-////Constructor Implementation
-//RobotKinematics::RobotKinematics(double alpha_12, double alpha_23, double alpha_34, double alpha_45, double alpha_56,
-//                                 double S2, double S3, double S4, double S5, double a12, double a23, double a34,
-//                                 double a45, double a56) : alpha_12(alpha_12), alpha_23(alpha_23), alpha_34(alpha_34),
-//                                                           alpha_45(alpha_45), alpha_56(alpha_56), S2(S2), S3(S3), S4(S4), S5(S5), a12(a12),
-//                                                           a23(a23), a34(a34), a45(a45), a56(a56) {}
-
-//New Constructor Implementation (HW4)
+//Constructor Implementation
 RobotKinematics::RobotKinematics(double alpha_12, double alpha_23, double alpha_34, double alpha_45, double alpha_56,double alpha_67,
                                  double S2, double S3, double S4, double S5, double a12, double a23, double a34,
                                  double a45, double a56, double a67) : alpha_12(alpha_12), alpha_23(alpha_23), alpha_34(alpha_34),
@@ -130,25 +123,52 @@ void RobotKinematics::T_itoj(double th_j,double alpha_ij,double a_ij, double S_j
 }
 
 //Closed Loop Analysis
-void RobotKinematics::Closed_Loop(double phi1, double th2, double th3,
-                 double th4, double th5, double th6,
-                 double S6, double P_tool_6[3],
-                 double P_tool_F[3], double S6_F[3], double a67_F[3])
+void RobotKinematics::Closed_Loop(double P_tool_6[3],double P_tool_F[3], double S6_F[3], double a67_F[3],
+                 double* a71,double* S7, double* S1, double* alpha_71, double* th7, double* gamma1)
 {
     //MathOperations Object
     MathOperations MathOps;
 
-    //Defining vector S7 (in fixed frame)
+    //Define P6orig_F (EQ 5.3)
+    double P6orig_F[3];
+    double i[3] = {1,0,0};
+    double j[3] = {0,1,0};
+    double k[3] = {0,0,1};
+    //Part 1 (P_tool_6 dot i) a67_F
+    double P1_0,Part1[3];
+    MathOps.DotProduct(&P1_0,P_tool_6,i);
+    MathOps.MultVecByScalar(Part1,a67_F,P1_0);
+    //Part 2 (P_tool_6 dot j) S6_F cross a67_F
+    double P2_0,P2_1[3], Part2[3];
+    MathOps.DotProduct(&P2_0,P_tool_6,j);
+    MathOps.CrossProduct(P2_1,S6_F,a67_F);
+    MathOps.MultVecByScalar(Part2,P2_1,P2_0);
+    //Part 3 (P_tool_6 dot k) S6_F
+    double P3_0,Part3[3];
+    MathOps.DotProduct(&P3_0,P_tool_6,k);
+    MathOps.MultVecByScalar(Part3,S6_F,P3_0);
+    //Final Part P6orig_F = P_tool_F - Part1 - Part2 - Part3
+    for(int x = 0; x < 3; x++){
+        P6orig_F[x] = P_tool_F[x] - Part1[x] - Part2[x] - Part3[x];
+    }
+
+    //Defining vector S7 (EQ 5.5))
     //By definition must be perpendicular to a67 and S6
-    double S7_F[3] = {0};
+    double S7_F[3];
     MathOps.CrossProduct(S7_F,a67_F,S6_F);
 
-    //Defining vector S1 (in fixed frame and is parallel to Z axis)
+    //Defining vector S1 (in fixed frame and is parallel to Z axis) [PG 48]
     double S1_F[3] = {0,0,1};
 
-    //Calculating cos and sin values with twist angle alpha_71
-    double c71;
+    //Calculating cos and sin values with twist angle alpha_71 (EQ 5.11)
+    double c71,s71;
     MathOps.DotProduct(&c71,S7_F,S1_F);
+
+    //cos and sin values of gamma 1
+    double cg1,sg1;
+
+    //cos and sin values of joint angle theta 7
+    double c7,s7;
 
     //General Case
     if(!MathOps.ValueNear(abs(c71), 1.0, 0.0001))
@@ -162,68 +182,109 @@ void RobotKinematics::Closed_Loop(double phi1, double th2, double th3,
         MathOps.MultVecByScalar(a71_F,step1_a71,step3_a71);
 
         //Calculate s71 (EQ 5.12)
-        double s71;
         double step1_s71[3];
         MathOps.CrossProduct(step1_s71,S7_F,S1_F);
         MathOps.DotProduct(&s71,step1_s71,a71_F);
 
         //Calculating cos and sin values of joint angle theta 7 (th7) (EQ 5.13 & 5.14)
-        double c7;
         MathOps.DotProduct(&c7,a67_F,a71_F);
-        double s7;
         double step1_s7[3];
         MathOps.CrossProduct(step1_s7,a67_F,a71_F);
         MathOps.DotProduct(&s7,step1_s7,S7_F);
 
         //Calculating the cos and sin of gamma1 (EQ 5.15 & 5.16)
-        double cg1;
         double X_F[3] = {1,0,0};
         MathOps.DotProduct(&cg1,a71_F,X_F);
-        double sg1;
         double step1_sg1[3];
         MathOps.CrossProduct(step1_sg1,a71_F,X_F);
         MathOps.DotProduct(&sg1,step1_sg1,S1_F);
 
         //Calculating Joint Offset Value S7 (EQ 5.21)
-        double S7;
         double step1_S7[3], step2_S7;
-        double P6o_F[3] = {1,2,3}; // Okay Ithink this is the origin of the sixth frame but not sure go to office hours and ask what this is or ask mauro tomorrow
-        MathOps.CrossProduct(step1_S7,S1_F,P6o_F);
+        MathOps.CrossProduct(step1_S7,S1_F,P6orig_F);
         MathOps.DotProduct(&step2_S7,step1_S7,a71_F);
-        S7 = step2_S7/s71;
+        *S7 = step2_S7/s71;
 
         //Calculate Link Length a71 (EQ 5.22)
-        double a71;
         double step1_a71l[3], step2_a71l; //l for length
-        MathOps.CrossProduct(step1_a71l,P6o_F,S1_F);
+        MathOps.CrossProduct(step1_a71l,P6orig_F,S1_F);
         MathOps.DotProduct(&step2_a71l,step1_a71l,S7_F);
-        a71 = step2_a71l/s71;
+        *a71 = step2_a71l/s71;
 
-        //Calculate Joint Offset Value S1
-        double S1;
+        //Calculate Joint Offset Value S1 (EQ 5.23)
         double step1_S1[3],step2_S1;
-        MathOps.CrossProduct(step1_S1,P6o_F,S7_F);
+        MathOps.CrossProduct(step1_S1,P6orig_F,S7_F);
         MathOps.DotProduct(&step2_S1,step1_S1,a71_F);
-        S1 = step2_S1/s71;
+        *S1 = step2_S1/s71;
+
     }
     else
     {
-        //special case 1
-        //
-        //
-        //
-        //
-//        if(a71 != 0)
-//        {
-//            //Regular special case1
-//        }
-//        else
-//        {
-//            //Special case 2
-//        }
+        //special Case 1: S1 and S7 are Parallel
+        *S7 = 0.0;
+
+        //Solve for Joint Offset Value S1 (EQ 5.25)
+        double step1_S1[3];
+        double c = -1;
+        double temp_S1;
+        MathOps.MultVecByScalar(step1_S1,P6orig_F,c);
+        MathOps.DotProduct(&temp_S1,step1_S1,S1_F);
+        *S1 = temp_S1;
+
+        //Calculating Link Length (EQ 5.27)
+        double step1_a71[3],step2_a71[3];
+        double temp_a71;
+        double S1_val = *S1;
+        MathOps.MultVecByScalar(step1_a71,S1_F,S1_val);
+        MathOps.AddVectors(step2_a71,P6orig_F,step1_a71); //Okay the equations has a neg inside the norm is it neg P6orig_F + S1*S1_F????
+        MathOps.Norm(&temp_a71,step2_a71);
+        *a71 = temp_a71;
+
+        //Check to see if we need to go to special case 2
+        double a71_val = *a71;
+        if(a71_val != 0)
+        {
+            //Calculate Perpendicular vector a71_F (EQ 5.28)
+            double a71_F[3];
+            // step2a_71 is the numerator in eq to solve a71_F
+            double c = -*a71;
+            MathOps.MultVecByScalar(a71_F,step2_a71,c);
+
+            //Calculating cos and sin values of joint angle theta 7 (th7) (EQ 5.13 & 5.14)
+            MathOps.DotProduct(&c7,a67_F,a71_F);
+            double step1_s7[3];
+            MathOps.CrossProduct(step1_s7,a67_F,a71_F);
+            MathOps.DotProduct(&s7,step1_s7,S7_F);
+
+            //Calculating the cos and sin of gamma1 (EQ 5.15 & 5.16)
+            double X_F[3] = {1,0,0};
+            MathOps.DotProduct(&cg1,a71_F,X_F);
+            double step1_sg1[3];
+            MathOps.CrossProduct(step1_sg1,a71_F,X_F);
+            MathOps.DotProduct(&sg1,step1_sg1,S1_F);
+        }
+        else
+        {
+            //Special Case 2: S1 and S7 are collinear
+            //a71_F and a67_F are parallel, so they are equal
+            double a71_F[3];
+            for(int x = 0; x < 3; x++){
+                a71_F[x] = a67_F[x];
+            }
+            //Calculating the cos and sin of gamma1 (EQ 5.15 & 5.16)
+            double X_F[3] = {1,0,0};
+            MathOps.DotProduct(&cg1,a71_F,X_F);
+            double step1_sg1[3];
+            MathOps.CrossProduct(step1_sg1,a71_F,X_F);
+            MathOps.DotProduct(&sg1,step1_sg1,S1_F);
+        }
 
     }
 
+    //Calculate angles alpha_71,th7, and gamma1
+    *alpha_71 = acos(c71) * R2D;
+    *th7 = acos(c7) * R2D;
+    *gamma1 = acos(cg1) * R2D;
 
 }
 

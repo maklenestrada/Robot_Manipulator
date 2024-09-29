@@ -74,6 +74,14 @@ void MathOperations::MultVecByScalar(double ans[3], double vec[3], double c)
     }
 }
 
+//Add two vectors together
+void MathOperations::AddVectors(double ans[3], double x[3],double y[3])
+{
+    for(int i = 0; i < 3; i++){
+        ans[i] = x[i] + y[i];
+    }
+}
+
 //Check if value is near desired tolerance
 int MathOperations::ValueNear(double val, double goal, double tol)
 {
