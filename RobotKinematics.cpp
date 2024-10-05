@@ -236,7 +236,7 @@ void RobotKinematics::Closed_Loop(double P_tool_6[3],double P_tool_F[3], double 
         double temp_a71;
         double S1_val = *S1;
         MathOps.MultVecByScalar(step1_a71,S1_F,S1_val);
-        MathOps.AddVectors(step2_a71,P6orig_F,step1_a71); //Okay the equations has a neg inside the norm is it neg P6orig_F + S1*S1_F????
+        MathOps.AddVectors(step2_a71,P6orig_F,step1_a71);
         MathOps.Norm(&temp_a71,step2_a71);
         *a71 = temp_a71;
 
@@ -247,8 +247,8 @@ void RobotKinematics::Closed_Loop(double P_tool_6[3],double P_tool_F[3], double 
             //Calculate Perpendicular vector a71_F (EQ 5.28)
             double a71_F[3];
             // step2a_71 is the numerator in eq to solve a71_F
-            double c = -*a71;
-            MathOps.MultVecByScalar(a71_F,step2_a71,c);
+            double co = -1/a71_val;
+            MathOps.MultVecByScalar(a71_F,step2_a71,co);
 
             //Calculating cos and sin values of joint angle theta 7 (th7) (EQ 5.13 & 5.14)
             MathOps.DotProduct(&c7,a67_F,a71_F);
@@ -262,10 +262,18 @@ void RobotKinematics::Closed_Loop(double P_tool_6[3],double P_tool_F[3], double 
             double step1_sg1[3];
             MathOps.CrossProduct(step1_sg1,a71_F,X_F);
             MathOps.DotProduct(&sg1,step1_sg1,S1_F);
+
+            //Calculate s71 (EQ 5.12)
+            double step1_s71[3];
+            MathOps.CrossProduct(step1_s71,S7_F,S1_F);
+            MathOps.DotProduct(&s71,step1_s71,a71_F);
         }
         else
         {
             //Special Case 2: S1 and S7 are collinear
+            //Select theta7 = 0
+            c7 = 1;
+            s7 = 0;
             //a71_F and a67_F are parallel, so they are equal
             double a71_F[3];
             for(int x = 0; x < 3; x++){
@@ -277,14 +285,19 @@ void RobotKinematics::Closed_Loop(double P_tool_6[3],double P_tool_F[3], double 
             double step1_sg1[3];
             MathOps.CrossProduct(step1_sg1,a71_F,X_F);
             MathOps.DotProduct(&sg1,step1_sg1,S1_F);
+
+            //Calculate s71 (EQ 5.12)
+            double step1_s71[3];
+            MathOps.CrossProduct(step1_s71,S7_F,S1_F);
+            MathOps.DotProduct(&s71,step1_s71,a71_F);
         }
 
     }
 
     //Calculate angles alpha_71,th7, and gamma1
-    *alpha_71 = acos(c71) * R2D;
-    *th7 = acos(c7) * R2D;
-    *gamma1 = asin(sg1) * R2D;
+    *alpha_71 = atan2(s71,c71) * R2D;
+    *th7 = atan2(s7,c7) * R2D;
+    *gamma1 = atan2(sg1,cg1) * R2D;
 
 }
 
