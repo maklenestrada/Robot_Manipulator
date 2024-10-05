@@ -4,12 +4,12 @@ This project implements robot kinematics in C++. The code is structured into mul
 
 ## Project Structure
 
-├── MatrixMath.cpp        # Contains matrix operations like matrix-vector multiplication  
-├── MatrixMath.h          # Header file for matrix operations  
-├── RobotKinematics.cpp   # Implements the RobotKinematics class  
-├── RobotKinematics.h     # Header file for the RobotKinematics class  
-├── main.cpp              # Main program that utilizes both the RobotKinematics class and matrix functions  
-├── README.md             # This README file  
+ ─ MatrixMath.cpp        # Contains matrix operations like matrix-vector multiplication  
+ ─ MatrixMath.h          # Header file for matrix operations  
+ ─ RobotKinematics.cpp   # Implements the RobotKinematics class  
+ ─ RobotKinematics.h     # Header file for the RobotKinematics class  
+ ─ main.cpp              # Main program that utilizes both the RobotKinematics class and matrix functions  
+ ─ README.md             # This README file  
 
 ## Files Overview
 
@@ -19,10 +19,10 @@ This project implements robot kinematics in C++. The code is structured into mul
 
 - **`main.cpp`**: The main program file where the `RobotKinematics` class and matrix math functions are used together.
 
-## Current Status (As of September 20, 2024)
+## Current Status (As of September 30, 2024)
 
 - **Forward Kinematics Analysis**: The project currently implements forward kinematics analysis, allowing the calculation of the end effector's position based on given joint angles.
   
-- **Work in Progress**: Currently working on implementing the **reverse kinematics analysis**, which will determine the required joint angles to achieve a desired end-effector position.
+- **Work in Progress**: Currently working on implementing the **reverse kinematics analysis**, so far the closed-form solution technique function has been implemented.
 
 
