@@ -1,6 +1,7 @@
 #include <iostream>
 #include "RobotKinematics.h"
 #include "MathOperations.h"
+#include "SphericalMechanisms.h"
 #include <math.h>
 
 #define D2R M_PI/180.0
@@ -109,6 +110,20 @@ int main() {
                             &a71_S2, &S7_S2, &S1_S2, &alpha_71_S2, &th7_S2, &gamma1_S2);
 
 
+    //Homework 5, Spherical Closed-Loop Mechanisms
+    //Spherical Mechanisms Object
+    SphericalMechanisms SphMech;
+
+    double A = -.4119;
+    double B = .7244;
+    double D = .6023;
+    double ang_a = 0;
+    double ang_b = 0;
+    SphMech.SolveTrig(A, B, D, &ang_a, &ang_b);
+
+    cout << ang_a << " , " << ang_b << endl;
+
+
     //Output the Results
     //For HW3
 //    cout << "Tool Point in Fixed = " << P1_F[0] << ","
@@ -118,36 +133,36 @@ int main() {
 //    cout << "a67 in Fixed = " << T_6toF[0][0] << ","
 //         << T_6toF[1][ 0] << "," << T_6toF[2][ 0] << endl ;
 
-    //For HW4 verifying values from example 5.7 (General Case)
-    cout << "Testing General Case" << endl;
-    cout << "P_tool_6, P_tool_F,S6_F,a67_F values are from example 5.7 in book" << endl;
-    cout << "Link Length a71 = " << a71 << endl;
-    cout << "Twist Angle Alpha 71 = " << alpha_71 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
-    cout << "Joint Offset S7 = " << S7 << endl;
-    cout << "Joint Angle Theta 7 = " << th7 <<  "\u00B0" << endl;
-    cout << "Joint Offset S1  = " << S1<< endl;
-    cout << "Gamma 1 = " << gamma1 <<  "\u00B0" << endl;
-    cout << endl;
-
-//    //Testing Special Case 1
-    cout << "Testing Special Case 1: S1 and S7 are parallel" << endl;
-    cout << "Input Values: P_tool_6 = {5,3,2}, P_tool_F = {30,11,24}, S6_F = {1,0,0}, a67_F = {0,1,0}" << endl;
-    cout << "Link Length a71 = " << a71_S1 << endl;
-    cout << "Twist Angle Alpha 71 = " << alpha_71_S1 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
-    cout << "Joint Offset S7 = " << S7_S1 << endl;
-    cout << "Joint Angle Theta 7 = " << th7_S1 <<  "\u00B0" << endl;
-    cout << "Joint Offset S1  = " << S1_S1 << endl;
-    cout << "Gamma 1 = " << gamma1_S1 <<  "\u00B0" << endl;
-    cout << endl;
-    //Testing Special Case 2
-    cout << "Testing Special Case 2: S1 and S7 are collinear" << endl;
-    cout << "Input Values: P_tool_6 = {0,0,0}, P_tool_F = {0,0,24}, S6_F = {1,0,0}, a67_F = {0,1,0}" << endl;
-    cout << "Link Length a71 = " << a71_S2 << endl;
-    cout << "Twist Angle Alpha 71 = " << alpha_71_S2 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
-    cout << "Joint Offset S7 = " << S7_S2 << endl;
-    cout << "Joint Angle Theta 7 = " << th7_S2 <<  "\u00B0" << endl;
-    cout << "Joint Offset S1  = " << S1_S2 << endl;
-    cout << "Gamma 1 = " << gamma1_S2 <<  "\u00B0" << endl;
-    return 0;
+//    //For HW4 verifying values from example 5.7 (General Case)
+//    cout << "Testing General Case" << endl;
+//    cout << "P_tool_6, P_tool_F,S6_F,a67_F values are from example 5.7 in book" << endl;
+//    cout << "Link Length a71 = " << a71 << endl;
+//    cout << "Twist Angle Alpha 71 = " << alpha_71 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
+//    cout << "Joint Offset S7 = " << S7 << endl;
+//    cout << "Joint Angle Theta 7 = " << th7 <<  "\u00B0" << endl;
+//    cout << "Joint Offset S1  = " << S1<< endl;
+//    cout << "Gamma 1 = " << gamma1 <<  "\u00B0" << endl;
+//    cout << endl;
+//
+////    //Testing Special Case 1
+//    cout << "Testing Special Case 1: S1 and S7 are parallel" << endl;
+//    cout << "Input Values: P_tool_6 = {5,3,2}, P_tool_F = {30,11,24}, S6_F = {1,0,0}, a67_F = {0,1,0}" << endl;
+//    cout << "Link Length a71 = " << a71_S1 << endl;
+//    cout << "Twist Angle Alpha 71 = " << alpha_71_S1 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
+//    cout << "Joint Offset S7 = " << S7_S1 << endl;
+//    cout << "Joint Angle Theta 7 = " << th7_S1 <<  "\u00B0" << endl;
+//    cout << "Joint Offset S1  = " << S1_S1 << endl;
+//    cout << "Gamma 1 = " << gamma1_S1 <<  "\u00B0" << endl;
+//    cout << endl;
+//    //Testing Special Case 2
+//    cout << "Testing Special Case 2: S1 and S7 are collinear" << endl;
+//    cout << "Input Values: P_tool_6 = {0,0,0}, P_tool_F = {0,0,24}, S6_F = {1,0,0}, a67_F = {0,1,0}" << endl;
+//    cout << "Link Length a71 = " << a71_S2 << endl;
+//    cout << "Twist Angle Alpha 71 = " << alpha_71_S2 <<  "\u00B0" << endl; // \u00B0 gives degree symbol
+//    cout << "Joint Offset S7 = " << S7_S2 << endl;
+//    cout << "Joint Angle Theta 7 = " << th7_S2 <<  "\u00B0" << endl;
+//    cout << "Joint Offset S1  = " << S1_S2 << endl;
+//    cout << "Gamma 1 = " << gamma1_S2 <<  "\u00B0" << endl;
+//    return 0;
 
 }
