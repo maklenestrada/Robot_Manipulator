@@ -114,15 +114,79 @@ int main() {
     //Spherical Mechanisms Object
     SphericalMechanisms SphMech;
 
-    double A = -.4119;
-    double B = .7244;
-    double D = .6023;
+    double A =  -0.1481;
+    double B = 0.7244;
+    double D =   0.6023;
     double ang_a = 0;
     double ang_b = 0;
     SphMech.SolveTrig(A, B, D, &ang_a, &ang_b);
 
-    cout << ang_a << " , " << ang_b << endl;
+   // cout << ang_a << " , " << ang_b << endl;
 
+    //Homework 7, Solve two bi-quadratic equations
+    //Using Values from HW7 Test Case
+
+    double a1 = 4;
+    double b1 = 32;
+    double d1 = -11.2;
+    double e1 = -3.3;
+    double f1 = 4.6;
+    double g1 = 11.4;
+    double h1 = 5.5;
+    double i1 = -1.2;
+    double j1 = -3.3;
+
+    double a2 = 2;
+    double b2 = -11;
+    double d2 = -4.2;
+    double e2 = 1.3;
+    double f2 = 2.6;
+    double g2 = 7.4;
+    double h2 = -1.5;
+    double i2 = -2.2;
+    double j2 = -5.3;
+
+    //8th order Polynomial Coefficients
+    double C8,C7,C6,C5,C4,C3,C2,C1,C0;
+
+    MathOperations MathOps;
+    //Input the constants a1-j2 and calculate coefficients C8-C0
+    MathOps.SolveBiQuadratic(a1,b1,d1,e1,f1,g1,h1,i1,j1,a2,b2,d2,e2,f2,g2,h2,i2,j2,
+                                &C8,&C7,&C6,&C5,&C4,&C3,&C2,&C1,&C0);
+
+    //Take the Root of 8th order poly
+    double xcof[] = {C0,C1,C2,C3,C4,C5,C6,C7,C8};
+    int d = 8;  //degree of polynomial
+    double root_r[36] = {0};
+    double root_c[36] = {0};
+    MathOps.Poly_Solve(root_r, root_c, d, xcof);
+
+    cout << "Eq 1: (4 x1^2 + 32 x1 + -11.2) x2^2 + (-3.3 x1^2 + 4.6 x1 + 11.4) x2 + (5.5 x1^2 + -1.2 x1 + -3.3) = 0" << endl;
+    cout << "Eq 2: (2 x1^2 + -11 x1 + -4.2) x2^2 + (1.3 x1^2 + 2.6 x1 + 7.4) x2 + (-1.5 x1^2 + -2.2 x1 + -5.3) = 0" << endl;
+    cout << "ans 0:" << endl;
+    cout << "   x1 = " << root_r[0] << " , " <<  root_c[0] << " i" << endl;
+//
+    cout << "ans 1:" << endl;
+    cout << "   x2 = " << root_r[1] << " , " <<  root_c[1] << " i" << endl;
+ //   cout << "   x2 = " << root_r[13] << " , " <<  root_c[13] << " i" << endl;
+    cout <<"ans 2" << endl;
+    cout << "   x1 = " << root_r[2] << " , " <<  root_c[2] << " i" << endl;
+ //   cout << "   x2 = " << root_r[11] << " , " <<  root_c[11] << " i" << endl;
+    cout << "ans 3" << endl;
+    cout << "   x1 = " << root_r[3] << " , " <<  root_c[3] << " i" << endl;
+//    cout << "   x2 = " << root_r[9] << " , " <<  root_c[9] << " i" << endl;
+    cout << "ans 4" << endl;
+    cout << "   x1 = " << root_r[4] << " , " <<  root_c[4] << " i" << endl;
+ //   cout << "   x2 = " << root_r[7] << " , " <<  root_c[7] << " i" << endl;
+    cout << "ans 5"<< endl;
+    cout << "   x1 = " << root_r[5] << " , " <<  root_c[5] << " i" << endl;
+  //  cout << "   x2 = " << root_r[5] << " , " <<  root_c[5] << " i" << endl;
+    cout << "ans 6" << endl;
+    cout << "   x1 = " << root_r[6] << " , " <<  root_c[6] << " i" << endl;
+ //   cout << "   x2 = " << root_r[3] << " , " <<  root_c[3] << " i" << endl;
+    cout << "ans 7" << endl;
+    cout << "   x1 = " << root_r[7] << " , " <<  root_c[7] << " i" << endl;
+ //   cout << "   x2 = " << root_r[1] << " , " <<  root_c[1] << " i" << endl;
 
     //Output the Results
     //For HW3

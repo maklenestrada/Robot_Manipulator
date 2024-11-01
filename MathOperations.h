@@ -5,6 +5,15 @@ public:
     //Constructor
     MathOperations() {}
 
+    //Function to root polynomial
+    int Poly_Solve(double root_r[], double root_c[], int d, double xcof[]);
+
+    //Function to solve two bi-quadratic equations
+    void SolveBiQuadratic(double a1,double b1,double d1,double e1,double f1,double g1,double h1,double i1,
+                           double j1,double a2,double b2,double d2,double e2,double f2,double g2,double h2,
+                           double i2,double j2,double* C8,double* C7,double* C6,double* C5,double* C4,
+                           double* C3,double* C2,double* C1,double* C0);
+
     //Function for matrix-vector multiplication (T (4x4) times P (4x1))
     void VectorMult(double ans[4], double T[4][4], double P[4]);
 
