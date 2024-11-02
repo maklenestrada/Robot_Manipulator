@@ -1,6 +1,8 @@
 #include "SphericalMechanisms.h"
 #include "MathOperations.h"
+#include "MathOperationsTemp.h"
 #include <math.h>
+#include <complex>
 
 #define D2R M_PI/180.0
 #define R2D 180/M_PI
@@ -44,8 +46,6 @@ void SphericalMechanisms::CalcOutsideRootFromInner(double a1,double b1,double d1
 
     for(int i = 0; i < d; i++)
     {
-//        cout << x_r[i] << endl;
-//        cout << x_i[i] << endl;
         CalcSylvesterOutsideRoot(a1, b1, d1, e1, f1, g1, h1, i1, j1,
                                  a2, b2, d2, e2, f2, g2, h2, i2, j2, x_r[i], x_i[i],
                                  &x2_r, &x2_i);
@@ -61,46 +61,35 @@ void SphericalMechanisms::CalcSylvesterOutsideRoot(double a1,double b1,double d1
                                                    double e2,double f2,double g2,double h2,double i2,double j2,
                                                    double x_r,double x_i,double* x2_r,double* x2_i)
 {
-//    //Solve using real part of root
-//    double L1_r = a1 * (x_r * x_r) + b1 * x_r + d1;
-//    double M1_r = e1 * (x_r * x_r) + f1 * x_r + g1;
-//    double N1_r = h1 * (x_r * x_r) + i1 * x_r + j1;
-//    double L2_r = a2 * (x_r * x_r) + b2 * x_r + d2;
-//    double M2_r = e2 * (x_r * x_r) + f2 * x_r + g2;
-//    double N2_r = h2 * (x_r * x_r) + i2 * x_r + j2;
-//
-//    //Solve using imag part of root
-//    double L1_i = a1 * (x_i * x_i) + b1 * x_i + d1;
-//    double M1_i = e1 * (x_i * x_i) + f1 * x_i + g1;
-//    double N1_i = h1 * (x_i * x_i) + i1 * x_i + j1;
-//    double L2_i = a2 * (x_i * x_i) + b2 * x_i + d2;
-//    double M2_i = e2 * (x_i * x_i) + f2 * x_i + g2;
-//    double N2_i = h2 * (x_i * x_i) + i2 * x_i + j2;
-
     MathOperations MathOps;
-    //Solve for vector [x2^3,x2^2,x2] = (Mat)^-1 * Vec
-    //Calculating real root of x2
-    double Mat_r[3][3] = {
-            {0,  L1_r, M1_r},
-            {0,  L2_r, M2_r},
-            {L1_r, M1_r, N1_r}};
-    double Vec_r[3] = {-N1_r, -N2_r, 0};
-    double Inv_r[3][3] = {0};
-    double ans_r[3] = {0};
-    MathOps.MatrixInv_R3(Inv_r, Mat_r);
-    MathOps.MultMatVec_R3(ans_r, Mat_r, Vec_r); //The third comp of this vec gives the x2_r value corresponding to x1_r root
-    *x2_r = ans_r[2];
-    cout << ans_r[2] << endl;
-    //Calculating imag root of x2
-    double Mat_i[3][3] = {
-            {0,  L1_i, M1_i},
-            {0,  L2_i, M2_i},
-            {L1_i, M1_i, N1_i}};
-    double Vec_i[3] = {-N1_i, -N2_i, 0};
-    double Inv_i[3][3] = {0};
-    double ans_i[3] = {0};
-    MathOps.MatrixInv_R3(Inv_i, Mat_i);
-    MathOps.MultMatVec_R3(ans_i, Mat_i, Vec_i);//The third comp of this vec gives the x2_i value corresponding to x1_i root
-    *x2_i = ans_i[2];
 
+    //Combine x to have real and imag part
+    complex<double> x(x_r, x_i);
+
+    // Calculate L1, M1, N1, L2, M2, N2 as complex numbers
+    complex<double> L1 = a1 * (x * x) + b1 * x + d1;
+    complex<double> M1 = e1 * (x * x) + f1 * x + g1;
+    complex<double> N1 = h1 * (x * x) + i1 * x + j1;
+    complex<double> L2 = a2 * (x * x) + b2 * x + d2;
+    complex<double> M2 = e2 * (x * x) + f2 * x + g2;
+    complex<double> N2 = h2 * (x * x) + i2 * x + j2;
+
+    //Solve for vector [x2^3,x2^2,x2] = (Mat)^-1 * Vec
+    complex<double> Mat[3][3] = {
+            {0, L1, M1},
+            {0, L2, M2},
+            {L1, M1, N1}
+    };
+    complex<double> Vec[3] = {-N1, -N2, 0};
+    complex<double> Inv[3][3];
+    complex<double> ans[3];
+    MatrixInv(Inv, Mat);
+    MatrixVecMult(ans, Inv, Vec);
+
+    // Extract the result for x2 as a complex number
+    complex<double> x2 = ans[2]; //The third comp of the ans vec gives the x2 value corresponding to x1 root
+
+    //Extract the real and imaginary parts of x2
+    *x2_r = x2.real();
+    *x2_i = x2.imag();
 }

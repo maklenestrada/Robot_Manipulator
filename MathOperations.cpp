@@ -381,19 +381,17 @@ void MathOperations::MatrixInv_R3(double Inv[3][3], double Mat[3][3])
     if (Det == 0) {
         throw runtime_error("Matrix is singular and cannot be inverted.");
     }
+    Inv[0][0] =  (Mat[1][1] * Mat[2][2] - Mat[1][2] * Mat[2][1]) / Det;
+    Inv[0][1] = -(Mat[0][1] * Mat[2][2] - Mat[0][2] * Mat[2][1]) / Det;
+    Inv[0][2] =  (Mat[0][1] * Mat[1][2] - Mat[0][2] * Mat[1][1]) / Det;
 
-    // Compute the inverse using the cofactor matrix divided by the determinant
-    Inv[0][0] =  (Mat[1][1] * Mat[2][2] - Mat[1][2] * Mat[2][1]) / Det;  // ei - fh
-    Inv[0][1] = -(Mat[0][1] * Mat[2][2] - Mat[0][2] * Mat[2][1]) / Det;  // -(bi - ch)
-    Inv[0][2] =  (Mat[0][1] * Mat[1][2] - Mat[0][2] * Mat[1][1]) / Det;  // bf - ce
+    Inv[1][0] = -(Mat[1][0] * Mat[2][2] - Mat[1][2] * Mat[2][0]) / Det;
+    Inv[1][1] =  (Mat[0][0] * Mat[2][2] - Mat[0][2] * Mat[2][0]) / Det;
+    Inv[1][2] = -(Mat[0][0] * Mat[1][2] - Mat[0][2] * Mat[1][0]) / Det;
 
-    Inv[1][0] = -(Mat[1][0] * Mat[2][2] - Mat[1][2] * Mat[2][0]) / Det;  // -(di - fg)
-    Inv[1][1] =  (Mat[0][0] * Mat[2][2] - Mat[0][2] * Mat[2][0]) / Det;  // ai - cg
-    Inv[1][2] = -(Mat[0][0] * Mat[1][2] - Mat[0][2] * Mat[1][0]) / Det;  // -(af - cd)
-
-    Inv[2][0] =  (Mat[1][0] * Mat[2][1] - Mat[1][1] * Mat[2][0]) / Det;  // dh - eg
-    Inv[2][1] = -(Mat[0][0] * Mat[2][1] - Mat[0][1] * Mat[2][0]) / Det;  // -(ah - bg)
-    Inv[2][2] =  (Mat[0][0] * Mat[1][1] - Mat[0][1] * Mat[1][0]) / Det;  // ae - bd
+    Inv[2][0] =  (Mat[1][0] * Mat[2][1] - Mat[1][1] * Mat[2][0]) / Det;
+    Inv[2][1] = -(Mat[0][0] * Mat[2][1] - Mat[0][1] * Mat[2][0]) / Det;
+    Inv[2][2] =  (Mat[0][0] * Mat[1][1] - Mat[0][1] * Mat[1][0]) / Det;
 }
 
 //Function to multiply 3x3 matrix by 3x1 vector
