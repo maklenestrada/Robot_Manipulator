@@ -14,6 +14,15 @@ public:
                            double i2,double j2,double* C8,double* C7,double* C6,double* C5,double* C4,
                            double* C3,double* C2,double* C1,double* C0);
 
+    //Function to take the determinant of a 3x3 matrix
+    double MatrixDet_R3(double Mat[3][3]);
+
+    //Function to take the inverse of a 3x3 matrix
+    void MatrixInv_R3(double inv[3][3], double Mat[3][3]);
+
+    //Function to multiply 3x3 matrix by 3x1 vector
+    void MultMatVec_R3(double ans[3], double Mat[3][3], double Vec[3]);
+
     //Function for matrix-vector multiplication (T (4x4) times P (4x1))
     void VectorMult(double ans[4], double T[4][4], double P[4]);
 

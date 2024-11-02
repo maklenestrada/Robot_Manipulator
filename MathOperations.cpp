@@ -366,6 +366,47 @@ void MathOperations::SolveBiQuadratic(double a1,double b1,double d1,double e1,do
 
 }
 
+//Function to take the determinant of a 3x3 matrix
+double MathOperations::MatrixDet_R3(double Mat[3][3])
+{
+    return Mat[0][0] * (Mat[1][1] * Mat[2][2] - Mat[1][2] * Mat[2][1]) -
+           Mat[0][1] * (Mat[1][0] * Mat[2][2] - Mat[1][2] * Mat[2][0]) +
+           Mat[0][2] * (Mat[1][0] * Mat[2][1] - Mat[1][1] * Mat[2][0]);
+}
+
+//Function to calculate the inverse of  3x3 matrix
+void MathOperations::MatrixInv_R3(double Inv[3][3], double Mat[3][3])
+{
+    double Det = MatrixDet_R3(Mat);  // Check if the matrix is linearly dependent
+    if (Det == 0) {
+        throw runtime_error("Matrix is singular and cannot be inverted.");
+    }
+
+    // Compute the inverse using the cofactor matrix divided by the determinant
+    Inv[0][0] =  (Mat[1][1] * Mat[2][2] - Mat[1][2] * Mat[2][1]) / Det;  // ei - fh
+    Inv[0][1] = -(Mat[0][1] * Mat[2][2] - Mat[0][2] * Mat[2][1]) / Det;  // -(bi - ch)
+    Inv[0][2] =  (Mat[0][1] * Mat[1][2] - Mat[0][2] * Mat[1][1]) / Det;  // bf - ce
+
+    Inv[1][0] = -(Mat[1][0] * Mat[2][2] - Mat[1][2] * Mat[2][0]) / Det;  // -(di - fg)
+    Inv[1][1] =  (Mat[0][0] * Mat[2][2] - Mat[0][2] * Mat[2][0]) / Det;  // ai - cg
+    Inv[1][2] = -(Mat[0][0] * Mat[1][2] - Mat[0][2] * Mat[1][0]) / Det;  // -(af - cd)
+
+    Inv[2][0] =  (Mat[1][0] * Mat[2][1] - Mat[1][1] * Mat[2][0]) / Det;  // dh - eg
+    Inv[2][1] = -(Mat[0][0] * Mat[2][1] - Mat[0][1] * Mat[2][0]) / Det;  // -(ah - bg)
+    Inv[2][2] =  (Mat[0][0] * Mat[1][1] - Mat[0][1] * Mat[1][0]) / Det;  // ae - bd
+}
+
+//Function to multiply 3x3 matrix by 3x1 vector
+void MathOperations::MultMatVec_R3( double ans[3], double Mat[3][3], double Vec[3])
+{
+    for (int i = 0; i < 3; ++i) {
+        ans[i] = 0; // Initialize each element of the result to zero
+        for (int j = 0; j < 3; ++j) {
+            ans[i] += Mat[i][j] * Vec[j]; // Matrix-vector multiplication
+        }
+    }
+}
+
 //Matrix-Vector Multiplication
 void MathOperations::VectorMult(double ans[4], double T[4][4], double P[4])
 {

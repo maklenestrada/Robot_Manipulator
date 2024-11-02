@@ -161,32 +161,50 @@ int main() {
     double root_c[36] = {0};
     MathOps.Poly_Solve(root_r, root_c, d, xcof);
 
+    //Finc the assosiated outside roots
+    //Allocate memory for pointers
+    double x2_real[36] = {0};
+    double x2_imag[36] = {0};
+    SphMech.CalcOutsideRootFromInner(a1, b1, d1, e1, f1, g1, h1, i1, j1, a2, b2, d2, e2, f2, g2, h2, i2, j2, d, root_r, root_c, x2_real, x2_imag);
+
+
+    //Testing to see if math functions work
+    double test[3][3] = {{1,2,-1},{2,1,2},{-1,2,1}};
+    double inv[3][3] = {0};
+    cout << MathOps.MatrixDet_R3(test) << endl;
+    MathOps.MatrixInv_R3(inv,test);
+    for (int i = 0; i < 3; ++i) {          // Loop over rows
+        for (int j = 0; j < 3; ++j) {      // Loop over columns
+            cout << inv[i][j] << " ";
+        }
+        cout << endl;                       // Newline after each row
+    }
     cout << "Eq 1: (4 x1^2 + 32 x1 + -11.2) x2^2 + (-3.3 x1^2 + 4.6 x1 + 11.4) x2 + (5.5 x1^2 + -1.2 x1 + -3.3) = 0" << endl;
     cout << "Eq 2: (2 x1^2 + -11 x1 + -4.2) x2^2 + (1.3 x1^2 + 2.6 x1 + 7.4) x2 + (-1.5 x1^2 + -2.2 x1 + -5.3) = 0" << endl;
     cout << "ans 0:" << endl;
     cout << "   x1 = " << root_r[0] << " , " <<  root_c[0] << " i" << endl;
-//
+    cout << "   x2 = " << x2_real[0] << " , " <<  x2_imag[0] << " i" << endl;
     cout << "ans 1:" << endl;
     cout << "   x2 = " << root_r[1] << " , " <<  root_c[1] << " i" << endl;
- //   cout << "   x2 = " << root_r[13] << " , " <<  root_c[13] << " i" << endl;
+    cout << "   x2 = " << x2_real[1] << " , " <<  x2_imag[1] << " i" << endl;
     cout <<"ans 2" << endl;
     cout << "   x1 = " << root_r[2] << " , " <<  root_c[2] << " i" << endl;
- //   cout << "   x2 = " << root_r[11] << " , " <<  root_c[11] << " i" << endl;
+    cout << "   x2 = " << x2_real[2] << " , " <<  x2_imag[2] << " i" << endl;
     cout << "ans 3" << endl;
     cout << "   x1 = " << root_r[3] << " , " <<  root_c[3] << " i" << endl;
-//    cout << "   x2 = " << root_r[9] << " , " <<  root_c[9] << " i" << endl;
+    cout << "   x2 = " << x2_real[3] << " , " <<  x2_imag[3] << " i" << endl;
     cout << "ans 4" << endl;
     cout << "   x1 = " << root_r[4] << " , " <<  root_c[4] << " i" << endl;
- //   cout << "   x2 = " << root_r[7] << " , " <<  root_c[7] << " i" << endl;
+    cout << "   x2 = " << x2_real[4] << " , " <<  x2_imag[4] << " i" << endl;
     cout << "ans 5"<< endl;
     cout << "   x1 = " << root_r[5] << " , " <<  root_c[5] << " i" << endl;
-  //  cout << "   x2 = " << root_r[5] << " , " <<  root_c[5] << " i" << endl;
+    cout << "   x2 = " << x2_real[5] << " , " <<  x2_imag[5] << " i" << endl;
     cout << "ans 6" << endl;
     cout << "   x1 = " << root_r[6] << " , " <<  root_c[6] << " i" << endl;
- //   cout << "   x2 = " << root_r[3] << " , " <<  root_c[3] << " i" << endl;
+    cout << "   x2 = " << x2_real[6] << " , " <<  x2_imag[6] << " i" << endl;
     cout << "ans 7" << endl;
     cout << "   x1 = " << root_r[7] << " , " <<  root_c[7] << " i" << endl;
- //   cout << "   x2 = " << root_r[1] << " , " <<  root_c[1] << " i" << endl;
+    cout << "   x2 = " << x2_real[7] << " , " <<  x2_imag[7] << " i" << endl;
 
     //Output the Results
     //For HW3
