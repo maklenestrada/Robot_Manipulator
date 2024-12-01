@@ -493,3 +493,31 @@ int MathOperations::ValueNear(double val, double goal, double tol)
     else
         return 0;
 }
+
+// Function to solve a 2x2 linear system
+// Ax = B
+// x = Ainv*B
+void MathOperations::solveLinearSystem(double A[2][2], double B[2], double* x1, double* x2) {
+
+    //Calculate Inverse of A
+    double det = A[0][0]*A[1][1] - A[0][1]*A[1][0];
+    double Ainv[2][2];
+    Ainv[0][0] = (1/det) * A[1][1];
+    Ainv[0][1] = (1/det) * (-A[0][1]);
+    Ainv[1][0] = (1/det) * (-A[1][0]);
+    Ainv[1][1] = (1/det) * A[0][0];
+
+    //Multiply Ainv times B (i.e. x = Ainv*B)
+
+    double x[2] = {0};
+
+    for(int i = 0; i < 2; i++){ //For loop over the T matrix rows
+        for(int j = 0; j < 2; j++){//For loop over the P elements
+            x[i] += Ainv[i][j] * B[j];
+        }
+    }
+
+    *x1 = x[0];
+    *x2 = x[1];
+
+}

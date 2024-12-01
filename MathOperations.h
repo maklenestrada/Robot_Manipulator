@@ -49,5 +49,8 @@ public:
 
     //Function to check if value is near a desired tolerance
     int ValueNear(double val, double goal, double tol);
+
+    // Function to solve a 2x2 linear system
+    void solveLinearSystem(double A[2][2], double B[2], double* x1, double* x2);
 };
 #endif //ROBOT_MANIPULATOR__MATHOPERATIONS_H
