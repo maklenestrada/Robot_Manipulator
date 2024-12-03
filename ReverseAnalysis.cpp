@@ -65,10 +65,10 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     // Ac1 + Bs1 + D = 0
     SphericalMechanisms SphMech;
 
-    double Y7 = - (sin(a71) * cos(a67) + cos(a71) * sin(a67) * cos(th7));
-    double X7 = sin(a67) * sin(th7);
-    double A = -S6 * Y7 + S7 * sin(a71);
-    double B =  - S6 * X7 - a71;
+    double Y7 = - (sin(alpha_71)*cos(alpha_67) + cos(alpha_71)*sin(alpha_67)*cos(th7));
+    double X7 = sin(alpha_67)*sin(th7);
+    double A = -S6*Y7 + S7*sin(alpha_71);
+    double B =  - S6*X7 - a71;
     double D = S4;
     double th1A, th1B;
 
@@ -101,10 +101,10 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     double Z17 = 0;
     double c5[8];
     for(int i = 0; i < 8; i++){
-        Xb1 = sin(a71) * sin(th[1][i]);
-        Yb1 = - ( sin(a67) * cos(a71) + cos(a67) * sin(a71) * cos(th[1][i]));
-        Zb1 = cos(a67) * cos(a71) - sin(a67) * sin(a71) * cos(th[1][i]);
-        Z17 = sin(a67) * (Xb1 * sin(th[0][i]) + Yb1 * cos(th7)) + cos(a67) * Zb1;
+        Xb1 = sin(alpha_12) * sin(th[1][i]);
+        Yb1 = - (sin(alpha_71)*cos(alpha_12) + cos(alpha_71)*sin(alpha_12)*cos(th[1][i]));
+        Zb1 = cos(alpha_71)*cos(alpha_12) - sin(alpha_71)*sin(alpha_12)*cos(th[1][i]);
+        Z17 = sin(alpha_67) * (Xb1 * sin(th[0][i]) + Yb1 * cos(th7)) + cos(alpha_67) * Zb1;
         if(i == 0 || i == 1 || i == 4 || i == 5){
             th[2][i] = acos(Z17);
         } else {
@@ -116,9 +116,10 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     /*
     To solve for th5 I used acos(Z17) then found the other angle for cos by 2PI - th
      Equations Used:
-    Xb1 = sin(a71) * sin(th1);
-    Yb1 = - ( sin(a67) * cos(a71) + cos(a67) * sin(a71) * cos(th1));
-    Zb1 = cos(a67) * cos(a71) - sin(a67) * sin(a71) * cos(th1)
+     (aij = alpha_ij)
+    Xb1 = sin(a12) * sin(th1);
+    Yb1 = - ( sin(a71) * cos(a12) + cos(a71) * sin(a12) * cos(th1));
+    Zb1 = cos(a71) * cos(a12) - sin(a71) * sin(a12) * cos(th1)
     Z17 = sin(a67) * (Xb1 * sin(th7) + Yb1 * cos(th7)) + cos(a67) * Zb1
     The next step is to solve for theta 6
      */
@@ -134,11 +135,11 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
 
     for(int i = 0; i < 8; i++)
     {
-        Xb1 = sin(a71) * sin(th[1][i]);
-        Yb1 = - ( sin(a67) * cos(a71) + cos(a67) * sin(a71) * cos(th[1][i]));
-        Zb1 = cos(a67) * cos(a71) - sin(a67) * sin(a71) * cos(th[1][i]);
-        X17 = Xb1 * cos(th[0][i]) - Yb1 * sin(th[0][i]);
-        Y17 = cos(a67) * (Xb1 * sin(th[0][i]) + Yb1 * cos(th[0][i])) - sin(a67) * Zb1;
+        Xb1 = sin(alpha_12) * sin(th[1][i]);
+        Yb1 = - (sin(alpha_71)*cos(alpha_12) + cos(alpha_71)*sin(alpha_12)*cos(th[1][i]));
+        Zb1 = cos(alpha_71)*cos(alpha_12) - sin(alpha_71)*sin(alpha_12)*cos(th[1][i]);
+        X17 = Xb1*cos(th[0][i]) - Yb1*sin(th[0][i]);
+        Y17 = cos(alpha_67) * (Xb1*sin(th[0][i]) + Yb1*cos(th[0][i])) - sin(alpha_67)*Zb1;
 
         c6 = X17/sin(th[2][i]);
         s6 = Y17/sin(th[2][i]);
@@ -149,9 +150,10 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     /*
     To solve for th6 I X17 = X56 & Y17 = -Xstar56 is used to get c6 and s6
      Equations Used:
-    Xb1 = sin(a71) * sin(th1);
-    Yb1 = - ( sin(a67) * cos(a71) + cos(a67) * sin(a71) * cos(th1));
-    Zb1 = cos(a67) * cos(a71) - sin(a67) * sin(a71) * cos(th1)
+     (aij = alpha_ij)
+    Xb1 = sin(a12) * sin(th1);
+    Yb1 = - ( sin(a71) * cos(a12) + cos(a71) * sin(a12) * cos(th1));
+    Zb1 = cos(a71) * cos(a12) - sin(a71) * sin(a12) * cos(th1)
     X17 = Xb1 * cos(th7) - Yb1 * sin(th7)
     Y17 = cos(a67) * (Xb1 * sin(th7) + Yb1 * cos(th7)) - sin(a67) * Zb1
     c6 = X17/sin(th5)
@@ -172,26 +174,26 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     double c3 = 0;
     for(int i = 0; i < 8; i++)
     {
-        X6 = sin(a56)*sin(th[3][i]);
-        Y6 = -(sin(a67)*cos(a56) + cos(a67)*sin(a56)*cos(th[3][i]));
-        Z6 = cos(a67)*cos(a56) - sin(a67)*sin(a56)*cos(th[3][i]);
+        X6 = sin(alpha_56)*sin(th[3][i]);
+        Y6 = -(sin(alpha_67)*cos(alpha_56) + cos(alpha_67)*sin(alpha_56)*cos(th[3][i]));
+        Z6 = cos(alpha_67)*cos(alpha_56) - sin(alpha_67)*sin(alpha_56)*cos(th[3][i]);
 
         X67 = X6*cos(th[0][i]) - Y6*sin(th[0][i]);
-        Y67 = cos(a71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) - sin(a71)*Z6;
-        Z67 = sin(a71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) +cos(a71)*Z6;
+        Y67 = cos(alpha_71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) - sin(alpha_71)*Z6;
+        Z67 = sin(alpha_71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) +cos(alpha_71)*Z6;
 
         X671 = X67*cos(th[1][i]) - Y67*sin(th[1][i]);
-        Y671 = cos(a12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) - sin(a12)*Z67;
+        Y671 = cos(alpha_12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) - sin(alpha_12)*Z67;
 
-        X7 = sin(a67) * sin(th[0][i]);
-        Y7 = - (sin(a71) * cos(a67) + cos(a71) * sin(a67) * cos(th[0][i]));
-        Z7 = cos(a71)*cos(a67) - sin(a71)*sin(a67)*cos(th[0][i]);
+        X7 = sin(alpha_67) * sin(th[0][i]);
+        Y7 = - (sin(alpha_71) * cos(alpha_67) + cos(alpha_71) * sin(alpha_67) * cos(th[0][i]));
+        Z7 = cos(alpha_71)*cos(alpha_67) - sin(alpha_71)*sin(alpha_67)*cos(th[0][i]);
 
         X71 = X7*cos(th[1][i]) - Y7*sin(th[1][i]);
-        Y71 = cos(a12) * (X7*sin(th[1][i]) + Y7*cos(th[1][i])) - sin(a12)*Z7;
+        Y71 = cos(alpha_12) * (X7*sin(th[1][i]) + Y7*cos(th[1][i])) - sin(alpha_12)*Z7;
 
-        X1 = sin(a71)*sin(th[1][i]);
-        Y1 = -(sin(a12)*cos(a71) + cos(a12)*sin(a71)*cos(th[1][i]));
+        X1 = sin(alpha_71)*sin(th[1][i]);
+        Y1 = -(sin(alpha_12)*cos(alpha_71) + cos(alpha_12)*sin(alpha_71)*cos(th[1][i]));
 
         K1 = -S5*X671 - S6*X71 - S7*X1 -a71*cos(th[1][i]);
         K2 = -S1 - S5*Y671 - S6*Y71 - S7*Y1;
@@ -207,6 +209,7 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
     To solve for th3 I used these equations
+     (aij = alpha_ij)
     K1 = S5*X671 - S6*X71 - S7*X1 -a71*cos(th1)
     K2 = -S1 - S5*Y671 - S6*Y71 - S7*Y1
     cos(th3) = (K1*K1 + K2*K2 - a23*a23 - a34*a34)/(2 * a23 * a34)
@@ -235,10 +238,6 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
      */
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     MathOperations MathOps;
-//    K1 = cos(th2)*(a23 + a34*c3) + sin(th2)*(-a34*sin(th3));
-//    K2 = cos(th2)*(-a34*sin(th3)) + sin(th2)*(-a23 - a34*c3);
-
-
 
     double Amat[2][2] = {0};
     double b[2] = {0};
@@ -252,8 +251,6 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
     K1 = 0;K2 = 0;
     double c2 = 0;double s2 = 0;
 
-
-
     for(int i = 0; i < 8; i++) {
         //Set up A matrix
         Amat[0][0] = a23 + a34 * cos(th[4][i]);
@@ -262,26 +259,26 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
         Amat[1][1] = -a23 - a34 * cos(th[4][i]);
 
         //Solve for K1 and K2
-        X6 = sin(a56) * sin(th[3][i]);
-        Y6 = -(sin(a67) * cos(a56) + cos(a67) * sin(a56) * cos(th[3][i]));
-        Z6 = cos(a67) * cos(a56) - sin(a67) * sin(a56) * cos(th[3][i]);
+        X6 = sin(alpha_56)*sin(th[3][i]);
+        Y6 = -(sin(alpha_67)*cos(alpha_56) + cos(alpha_67)*sin(alpha_56)*cos(th[3][i]));
+        Z6 = cos(alpha_67)*cos(alpha_56) - sin(alpha_67)*sin(alpha_56)*cos(th[3][i]);
 
-        X67 = X6 * cos(th[0][i]) - Y6 * sin(th[0][i]);
-        Y67 = cos(a71) * (X6 * sin(th[0][i]) + Y6 * cos(th[0][i])) - sin(a71) * Z6;
-        Z67 = sin(a71) * (X6 * sin(th[0][i]) + Y6 * cos(th[0][i])) + cos(a71) * Z6;
+        X67 = X6*cos(th[0][i]) - Y6*sin(th[0][i]);
+        Y67 = cos(alpha_71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) - sin(alpha_71)*Z6;
+        Z67 = sin(alpha_71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) +cos(alpha_71)*Z6;
 
-        X671 = X67 * cos(th[1][i]) - Y67 * sin(th[1][i]);
-        Y671 = cos(a12) * (X67 * sin(th[1][i]) + Y67 * cos(th[1][i])) - sin(a12) * Z67;
+        X671 = X67*cos(th[1][i]) - Y67*sin(th[1][i]);
+        Y671 = cos(alpha_12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) - sin(alpha_12)*Z67;
 
-        X7 = sin(a67) * sin(th[0][i]);
-        Y7 = -(sin(a71) * cos(a67) + cos(a71) * sin(a67) * cos(th[0][i]));
-        Z7 = cos(a71) * cos(a67) - sin(a71) * sin(a67) * cos(th[0][i]);
+        X7 = sin(alpha_67) * sin(th[0][i]);
+        Y7 = - (sin(alpha_71) * cos(alpha_67) + cos(alpha_71) * sin(alpha_67) * cos(th[0][i]));
+        Z7 = cos(alpha_71)*cos(alpha_67) - sin(alpha_71)*sin(alpha_67)*cos(th[0][i]);
 
-        X71 = X7 * cos(th[1][i]) - Y7 * sin(th[1][i]);
-        Y71 = cos(a12) * (X7 * sin(th[1][i]) + Y7 * cos(th[1][i])) - sin(a12) * Z7;
+        X71 = X7*cos(th[1][i]) - Y7*sin(th[1][i]);
+        Y71 = cos(alpha_12) * (X7*sin(th[1][i]) + Y7*cos(th[1][i])) - sin(alpha_12)*Z7;
 
-        X1 = sin(a71) * sin(th[1][i]);
-        Y1 = -(sin(a12) * cos(a71) + cos(a12) * sin(a71) * cos(th[1][i]));
+        X1 = sin(alpha_71)*sin(th[1][i]);
+        Y1 = -(sin(alpha_12)*cos(alpha_71) + cos(alpha_12)*sin(alpha_71)*cos(th[1][i]));
 
         K1 = -S5*X671 - S6*X71 - S7*X1 - a71*cos(th[1][i]);
         K2 = -S1 - S5*Y671 - S6*Y71 - S7*Y1;
@@ -293,12 +290,12 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
         MathOps.solveLinearSystem(Amat, b, &c2, &s2);
 
         th[5][i] = atan2(s2,c2);
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
     To solve for th2 I solved two linear equations
+     (aij = alpha_ij)
      c2 * (a23 + a34*c3) + s2 * (-a34s3) = K1
      c2 * (-a34*S3) + s2 * (-a23 - a34*c3) = K2
 
@@ -316,24 +313,24 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
 
     for(int i = 0; i < 8; i++)
     {
-        X6 = sin(a56)*sin(th[3][i]);
-        Y6 = -(sin(a67)*cos(a56) + cos(a67)*sin(a56)*cos(th[3][i]));
-        Z6 = cos(a67)*cos(a56) - sin(a67)*sin(a56)*cos(th[3][i]);
+        X6 = sin(alpha_56)*sin(th[3][i]);
+        Y6 = -(sin(alpha_67)*cos(alpha_56) + cos(alpha_67)*sin(alpha_56)*cos(th[3][i]));
+        Z6 = cos(alpha_67)*cos(alpha_56) - sin(alpha_67)*sin(alpha_56)*cos(th[3][i]);
 
         X67 = X6*cos(th[0][i]) - Y6*sin(th[0][i]);
-        Y67 = cos(a71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) - sin(a71)*Z6;
-        Z67 = sin(a71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) +cos(a71)*Z6;
+        Y67 = cos(alpha_71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) - sin(alpha_71)*Z6;
+        Z67 = sin(alpha_71) * (X6*sin(th[0][i]) + Y6*cos(th[0][i])) +cos(alpha_71)*Z6;
 
         X671 = X67*cos(th[1][i]) - Y67*sin(th[1][i]);
-        Y671 = cos(a12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) - sin(a12)*Z67;
-        Z671 = sin(a12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) + cos(a12)*Z67;
+        Y671 = cos(alpha_12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) - sin(alpha_12)*Z67;
+        Z671 = sin(alpha_12) * (X67*sin(th[1][i]) + Y67*cos(th[1][i])) + cos(alpha_12)*Z67;
 
         X6712 = X671*cos(th[5][i]) - Y671*sin(th[5][i]);
-        Y6712 = cos(a23) * (X671*sin(th[5][i]) + Y671*cos(th[5][i])) - sin(a23)*Z671;
-        Z6712 = sin(a23) * (X671*sin(th[5][i]) + Y671*cos(th[5][i])) + cos(a23)*Z671;
+        Y6712 = cos(alpha_23) * (X671*sin(th[5][i]) + Y671*cos(th[5][i])) - sin(alpha_23)*Z671;
+        Z6712 = sin(alpha_23) * (X671*sin(th[5][i]) + Y671*cos(th[5][i])) + cos(alpha_23)*Z671;
 
         X67123 = X6712*cos(th[4][i]) - Y6712*sin(th[4][i]);
-        Y67123 = cos(a34) * (X6712*sin(th[4][i]) + Y6712*cos(th[4][i])) - sin(a34)*Z6712;
+        Y67123 = cos(alpha_34) * (X6712*sin(th[4][i]) + Y6712*cos(th[4][i])) - sin(alpha_34)*Z6712;
 
         c4 = -Y67123;
         s4 = -X67123;
@@ -344,9 +341,10 @@ void ReverseAnalysis::ReverseAnalysis_GEP60(double P_tool_6[3],double P_tool_F[3
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
     To solve for th4 I used these equations
+     (aij = alpha_ij)
     c4 = -Y67123
     s4 = -X67123
-
+    (aij = alpha_ij)
     X67123 = X6712*cos(th3) - Y6712*sin(th3)
     Y67123 = cos(a34) * (X6712*sin(th3) + Y6712*cos(th3)) - sin(a34)*Z6712
 

@@ -56,17 +56,17 @@ int main(){
         cout << "**********************" << endl;
         cout << "Solution #" << i + 1 << endl;
         cout << "phi1[" << i + 1 << "] = " << fixed << setprecision(3)
-             << th[0][i] * R2D <<  "\u00B0" << endl;
-        cout << "th2 [" << i + 1 << "] = " << fixed << setprecision(3)
              << th[1][i] * R2D <<  "\u00B0" << endl;
+        cout << "th2 [" << i + 1 << "] = " << fixed << setprecision(3)
+             << th[5][i] * R2D <<  "\u00B0" << endl;
         cout << "th3 [" << i + 1 << "] = " << fixed << setprecision(3)
-             << th[2][i] * R2D <<  "\u00B0"  << endl;
+             << th[5][i] * R2D <<  "\u00B0"  << endl;
         cout << "th4 [" << i + 1 << "] = " << fixed << setprecision(3)
-             << th[3][i] * R2D <<  "\u00B0" << endl;
+             << th[6][i] * R2D <<  "\u00B0" << endl;
         cout << "th5 [" << i + 1 << "] = " << fixed << setprecision(3)
-             << th[4][i] * R2D <<  "\u00B0" << endl;
+             << th[2][i] * R2D <<  "\u00B0" << endl;
         cout << "th6 [" << i + 1 << "] = " << fixed << setprecision(3)
-             << th[5][i] * R2D<<  "\u00B0"  << endl;
+             << th[3][i] * R2D<<  "\u00B0"  << endl;
         cout << endl;
 
 
